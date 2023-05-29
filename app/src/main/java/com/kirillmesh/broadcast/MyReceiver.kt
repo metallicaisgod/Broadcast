@@ -9,6 +9,11 @@ class MyReceiver : BroadcastReceiver() {
 
     override fun onReceive(p0: Context?, p1: Intent?) {
         when(p1?.action){
+
+            ACTION_CLICKED -> {
+                val count = p1.getIntExtra(CLICK_COUNT, 0)
+                Toast.makeText(p0, "Button clicked $count times", Toast.LENGTH_SHORT).show()
+            }
             Intent.ACTION_AIRPLANE_MODE_CHANGED -> {
                 Toast.makeText(p0, "Airplane mode changed", Toast.LENGTH_LONG).show()
             }
@@ -17,4 +22,18 @@ class MyReceiver : BroadcastReceiver() {
             }
         }
     }
+
+    companion object{
+
+        const val ACTION_CLICKED = "clicked"
+        private const val CLICK_COUNT = "click_count"
+
+        fun createIntent(count: Int): Intent {
+            return Intent(ACTION_CLICKED).apply {
+                putExtra(CLICK_COUNT, count)
+            }
+        }
+
+    }
+
 }
